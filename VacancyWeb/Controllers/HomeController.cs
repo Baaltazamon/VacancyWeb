@@ -38,9 +38,23 @@ namespace VacancyWeb.Controllers
         {
             return View();
         }
-        public IActionResult SingleVacancy()
+        public IActionResult SingleVacancy(int id)
         {
-            return View();
+            VacancyRequest vr = db.VacancyRequests.SingleOrDefault(c => c.Id == id);
+            if (vr is null)
+                return NotFound();
+            ForViewSingle fvs = new ForViewSingle
+            {
+                VacancyRequests = vr,
+                ListConditions = db.Conditions.Where(c=> c.VacancyId == vr.Id).ToList(),
+                Staves = db.staff.SingleOrDefault(c=> c.Id == vr.Staff),
+                ListDuties = db.Duties.Where(c => c.VacancyId == vr.Id).ToList(),
+                TimeTables = db.TimeTables.SingleOrDefault(c=> c.Id == vr.TimeTable),
+                TypeOfEmployments = db.TypeOfEmployments.SingleOrDefault(c=> c.Id == vr.TypeOfEmployment),
+                TypeVacancies = db.TypeVacancies.SingleOrDefault(c=> c.Id == vr.Type),
+                ListRequirements = db.Requirements.Where(c => c.VacancyId == vr.Id).ToList()
+            };
+            return View(fvs);
         }
         public IActionResult Privacy()
         {

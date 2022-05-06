@@ -17,4 +17,15 @@ namespace VacancyWeb.Models
         public List<staff> ListsStaves { get; set; }
         public List<Request> ListRequests { get; set; }
     }
+    public class ForViewSingle
+    {
+        public VacancyRequest VacancyRequests { get; set; }
+        public List<Condition> ListConditions { get; set; }
+        public List<Duty> ListDuties { get; set; }
+        public TimeTable TimeTables { get; set; }
+        public List<Requirement> ListRequirements { get; set; }
+        public TypeOfEmployment TypeOfEmployments { get; set; }
+        public TypeVacancy TypeVacancies { get; set; }
+        public staff Staves { get; set; }
+    }
 }
