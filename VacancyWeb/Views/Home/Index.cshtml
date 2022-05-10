@@ -44,7 +44,7 @@
                 </header>
 
                 <div class="row item-blocks-connected">
-                    @foreach(var item in Model.ListVacancyRequests.OrderByDescending(c=> c.Date).ToList().GetRange(0,4))
+                    @foreach(var item in Model.ListVacancyRequests.OrderByDescending(c=> c.Date).ToList().GetRange(0,3))
                     {
                         <div class="col-xs-12">
                             <a class="item-block" asp-action="SingleVacancy" asp-route-id="@item.Id">
@@ -167,41 +167,41 @@
                 <header class="section-header">
                     <span>Категории</span>
                     <h2>Выбери профессию</h2>
-                    <p>Here's the most popular categories</p>
+                    <p></p>
                 </header>
 
                 <div class="category-grid">
-                    <a href="job-list-1.html">
+                    <a asp-action="Vacancies" asp-route-type="1">
                         <i class="fa fa-laptop"></i>
                         <h6>IT отдел</h6>
                         <p>Системные администраторы, техники, программисты и безопасники.</p>
                     </a>
 
-                    <a href="job-list-2.html">
+                    <a asp-action="Vacancies" asp-route-type="2">
                         <i class="fa fa-graduation-cap"></i>
                         <h6>Преподаватели</h6>
                         <p>Вакансии по преподаваемым дисциплинам и лаборанты</p>
                     </a>
 
-                    <a href="job-list-3.html">
+                    <a asp-action="Vacancies" asp-route-type="3">
                         <i class="fa fa-plane"></i>
                         <h6>Администрация</h6>
                         <p>Заведующие кафедрами, заместители</p>
                     </a>
 
-                    <a href="job-list-1.html">
+                    <a asp-action="Vacancies" asp-route-type="4">
                         <i class="fa fa-wrench"></i>
                         <h6>Отдел снабжения</h6>
                         <p>Монтажники, ремонтники, электрики и разнорабочие</p>
                     </a>
 
-                    <a href="job-list-2.html">
+                    <a asp-action="Vacancies" asp-route-type="5">
                         <i class="fa fa-shield"></i>
                         <h6>Охрана</h6>
                         <p>Вахтеры, охранники и сотрудники контроля</p>
                     </a>
 
-                    <a href="job-list-3.html">
+                    <a asp-action="Vacancies" asp-route-type="6">
                         <i class="fa fa-magic"></i>
                         <h6>Отдел маркетинга</h6>
                         <p>Арбитрижники трафика и маркетологи</p>

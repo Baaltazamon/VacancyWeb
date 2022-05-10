@@ -1,336 +1,346 @@
-﻿
+﻿@model ForView
 @{
     ViewData["Title"] = "Vacancies";
 }
 
 
 
+<header class="page-header bg-img" style="background-image: url(/assets/img/bg-banner1.jpg);">
+    <div class="container page-name">
+        <h1 class="text-center">Выбери подходящую вакансию</h1>
+        <p class="lead text-center">И отправь заявку. Возможно работа ждала именно тебя!</p>
+    </div>
 
+    <div class="container">
+        <form asp-action="Vacancies" method="get">
+
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-4">
+                    <input value="@(Model.Filter.Title)" type="text" class="form-control" name="title" placeholder="Название профессии">
+                </div>
+                <div class="form-group col-xs-12 col-sm-4">
+                    <input value="@(Model.Filter.Salary)" type="number" class="form-control" name="salary" placeholder="Минимальная зарплата">
+                </div>
+                
+                <div class="form-group col-xs-12 col-sm-4">
+                    <select class="form-control selectpicker" name="type">
+                        @if (Model.Filter.Type != 0 && Model.Filter.Type != 0)
+                        {
+                            <option value="0">Все категории</option>
+                            @foreach (var VARIABLE in Model.ListTypeVacancies)
+                            {
+                                if (VARIABLE.Id == Model.Filter.Type)
+                                {
+                                    <option selected="" id="type@(VARIABLE.Id)" value="@VARIABLE.Id">@VARIABLE.Name (@Model.AllListVacancyRequests.Count(c=> c.Type == VARIABLE.Id))</option>
+                                }
+                                else
+                                {
+                                    <option id="type@(VARIABLE.Id)" value="@VARIABLE.Id">@VARIABLE.Name (@Model.AllListVacancyRequests.Count(c => c.Type == VARIABLE.Id))</option>
+                                }
+                                
+                            }
+
+                        }
+                        else
+                        {
+                            <option selected value="0">Все категории</option>
+                            @foreach (var VARIABLE in Model.ListTypeVacancies)
+                            {
+                                <option value="@VARIABLE.Id">@VARIABLE.Name (@Model.AllListVacancyRequests.Count(c => c.Type == VARIABLE.Id))</option>
+                            }
+
+                        }
+
+
+                    </select>
+                </div>
+
+
+                <div class="form-group col-xs-12 col-sm-4">
+                    <h6>Тип занятости</h6>
+                    <div class="checkall-group">
+
+                        @if (Model.Filter.TypeOfEmployment.Length > 0)
+                        {
+                            if (Model.Filter.TypeOfEmployment.Contains(0))
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="TypeOfEmployments" name="typeOfEmployments" value="0" checked>
+                                    <label for="TypeOfEmployments">Все типы</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="TypeOfEmployments" name="typeOfEmployments" value="0">
+                                    <label for="TypeOfEmployments">Все типы</label>
+                                </div>
+
+                            }
+                            @foreach (var VARIABLE in Model.ListTypeOfEmployments)
+                            {
+
+                                if (Model.Filter.TypeOfEmployment.Contains(VARIABLE.Id))
+                                {
+                                    <div class="checkbox">
+                                        <input type="checkbox" checked id="TypeOfEmployments(@VARIABLE.Id)" value="@VARIABLE.Id" name="typeOfEmployments">
+                                        <label for="TypeOfEmployments(@VARIABLE.Id)">@VARIABLE.Name <small>(@Model.AllListVacancyRequests.Count(c => c.TypeOfEmployment == VARIABLE.Id))</small></label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="TypeOfEmployments(@VARIABLE.Id)" value="@VARIABLE.Id" name="typeOfEmployments">
+                                        <label for="TypeOfEmployments(@VARIABLE.Id)">@VARIABLE.Name <small>(@Model.AllListVacancyRequests.Count(c => c.TypeOfEmployment == VARIABLE.Id))</small></label>
+                                    </div>
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            <div class="checkbox">
+                                <input type="checkbox" id="TypeOfEmployments" name="typeOfEmployments" value="0" checked>
+                                <label for="TypeOfEmployments">Все типы</label>
+                            </div>
+                            @foreach (var VARIABLE in Model.ListTypeOfEmployments)
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="TypeOfEmployments(@VARIABLE.Id)" value="@VARIABLE.Id" name="typeOfEmployments">
+                                    <label for="TypeOfEmployments(@VARIABLE.Id)">@VARIABLE.Name <small>(@Model.AllListVacancyRequests.Count(c => c.TypeOfEmployment == VARIABLE.Id))</small></label>
+                                </div>
+                            }
+                        }
+
+
+
+                    </div>
+                    </div>
+                <div class="form-group col-xs-12 col-sm-4">
+                    <h6>График работы</h6>
+                    <div class="checkall-group">
+                        @if (Model.Filter.TimeTables.Length > 0)
+                        {
+                            if (Model.Filter.TimeTables.Contains(0))
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="TimeTables" name="timeTables" value="0" checked>
+                                    <label for="TimeTables">Все типы</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="TimeTables" name="timeTables" value="0">
+                                    <label for="TimeTables">Все типы</label>
+                                </div>
+
+                            }
+                            
+                            @foreach (var VARIABLE in Model.ListTimeTables)
+                            {
+
+                                if (Model.Filter.TimeTables.Contains(VARIABLE.Id))
+                                {
+                                    <div class="checkbox">
+                                        <input type="checkbox" checked id="TimeTables(@VARIABLE.Id)" name="timeTables" value="@VARIABLE.Id">
+                                        <label for="TimeTables(@VARIABLE.Id)">@VARIABLE.Name <small>(@Model.AllListVacancyRequests.Count(c => c.TimeTable == VARIABLE.Id))</small></label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="TimeTables(@VARIABLE.Id)" name="timeTables" value="@VARIABLE.Id">
+                                        <label for="TimeTables(@VARIABLE.Id)">@VARIABLE.Name <small>(@Model.AllListVacancyRequests.Count(c => c.TimeTable == VARIABLE.Id))</small></label>
+                                    </div>
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            <div class="checkbox">
+                                <input type="checkbox" id="TimeTables" name="timeTables" value="0" checked>
+                                <label for="TimeTables">Все типы</label>
+                            </div>
+                            @foreach (var VARIABLE in Model.ListTimeTables)
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="TimeTables(@VARIABLE.Id)" name="timeTables" value="@VARIABLE.Id">
+                                    <label for="TimeTables(@VARIABLE.Id)">@VARIABLE.Name <small>(@Model.AllListVacancyRequests.Count(c => c.TimeTable == VARIABLE.Id))</small></label>
+                                </div>
+                            }
+
+                        }
+
+
+
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-4">
+                    <h6>Вакансий на странице</h6>
+                    <div class="radio-inline">
+                        <div class="radio">
+                            <input type="radio" id="VacOnPage1" name="vacanOnPage" value="1" >
+                            <label for="VacOnPage1">1</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="VacOnPage3" name="vacanOnPage" value="3" >
+                            <label for="VacOnPage3">3</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="VacOnPage5" name="vacanOnPage" value="5" >
+                            <label for="VacOnPage5">5</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="VacOnPage10" name="vacanOnPage" value="10">
+                            <label for="VacOnPage10">10</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="VacOnPage20" name="vacanOnPage" value="20" >
+                            <label for="VacOnPage20">20</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="VacOnPage50" name="vacanOnPage" value="50" >
+                            <label for="VacOnPage50">50</label>
+                        </div>
+                    </div>
+                </div>
+                <script>document.getElementById("VacOnPage@(Model.Filter.VacancyOnPage)").checked = true;</script>
+
+            </div>
+
+            <div class="button-group">
+                <div class="action-buttons">
+                    <button class="btn btn-primary">Применить фильтр</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</header>
     <!-- Main container -->
     <main>
         <section class="no-padding-top bg-alt">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <form action="#">
-
-                            <div class="row">
-                                <div class="form-group col-xs-12 col-sm-4">
-                                    <input type="text" class="form-control" placeholder="Keyword: job title, skills, or company">
-                                </div>
-
-                                <div class="form-group col-xs-12 col-sm-4">
-                                    <input type="text" class="form-control" placeholder="Location: city, state or zip">
-                                </div>
-
-                                <div class="form-group col-xs-12 col-sm-4">
-                                    <select class="form-control selectpicker" multiple>
-                                        <option selected>All categories</option>
-                                        <option>Developer</option>
-                                        <option>Designer</option>
-                                        <option>Customer service</option>
-                                        <option>Finance</option>
-                                        <option>Healthcare</option>
-                                        <option>Sale</option>
-                                        <option>Marketing</option>
-                                        <option>Information technology</option>
-                                        <option>Others</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group col-xs-12 col-sm-4">
-                                    <h6>Contract</h6>
-                                    <div class="checkall-group">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="contract1" name="contract" checked>
-                                            <label for="contract1">All types</label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="contract2" name="contract">
-                                            <label for="contract2">Full-time <small>(354)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="contract3" name="contract">
-                                            <label for="contract3">Part-time <small>(284)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="contract4" name="contract">
-                                            <label for="contract4">Internship <small>(169)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="contract5" name="contract">
-                                            <label for="contract5">Freelance <small>(480)</small></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group col-xs-12 col-sm-4">
-                                    <h6>Hourly rate</h6>
-                                    <div class="checkall-group">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="rate1" name="rate" checked>
-                                            <label for="rate1">All rates</label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="rate2" name="rate">
-                                            <label for="rate2">$0 - $50 <small>(364)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="rate3" name="rate">
-                                            <label for="rate3">$50 - $100 <small>(684)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="rate4" name="rate">
-                                            <label for="rate4">$100 - $200 <small>(195)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="rate5" name="rate">
-                                            <label for="rate5">$200+ <small>(39)</small></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group col-xs-12 col-sm-4">
-                                    <h6>Academic degree</h6>
-                                    <div class="checkall-group">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="degree1" name="degree" checked>
-                                            <label for="degree1">All degrees</label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="degree2" name="degree">
-                                            <label for="degree2">Associate degree <small>(216)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="degree3" name="degree">
-                                            <label for="degree3">Bachelor's degree <small>(569)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="degree4" name="degree">
-                                            <label for="degree4">Master's degree <small>(439)</small></label>
-                                        </div>
-
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="degree5" name="degree">
-                                            <label for="degree5">Doctoral degree <small>(84)</small></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="button-group">
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary">Apply filter</button>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
+                    
                     <div class="col-xs-12">
                         <br>
-                        <h5>We found <strong>357</strong> matches, you're watching <i>10</i> to <i>20</i></h5>
+                        <h5>Мы нашли <strong>@Model.ListVacancyRequests.Count</strong> вакансий, вам показано <i>@Model.ListVacancyRequests.Count</i> из <i>@Model.ListVacancyRequests.Count</i></h5>
                     </div>
 
                     <!-- Job item -->
                     <div class="col-xs-12">
-                        <a class="item-block" href="job-detail.html">
-                            <header>
-                                <img src="~/assets/img/logo-google.jpg" alt="">
-                                <div class="hgroup">
-                                    <h4>Senior front-end developer</h4>
-                                    <h5>Google <span class="label label-success">Full-time</span></h5>
+                        @foreach (var item in @Model.ListVacancyRequests)
+                        {
+                            <a class="item-block" asp-action="SingleVacancy" asp-route-id="@item.Id">
+                                <header>
+                                    @if (item.Type == 1)
+                                    {
+                                        <img src="~/assets/img/IT.jpg" alt="">
+                                    }
+                                    else if (item.Type == 2)
+                                    {
+                                        <img src="~/assets/img/ped.jpg" alt="">
+                                    }
+                                    else if (item.Type == 3)
+                                    {
+                                        <img src="~/assets/img/admin.jpg" alt="">
+                                    }
+                                    else if (item.Type == 4)
+                                    {
+                                        <img src="~/assets/img/snab.jpg" alt="">
+                                    }
+                                    else if (item.Type == 5)
+                                    {
+                                        <img src="~/assets/img/def.jpg" alt="">
+                                    }
+                                    else if (item.Type == 6)
+                                    {
+                                        <img src="~/assets/img/mark.jpg" alt="">
+                                    }
+                                    <div class="hgroup">
+                                        <h4>@((item.Title.Length > 50)?item.Title.Substring(0, 50)+"...":item.Title)</h4>
+                                        @if (item.TypeOfEmployment == 1)
+                                        {
+                                            <span class="label label-primary">@item.TypeOfEmploymentNavigation.Name</span>
+                                        }
+                                        else if (item.TypeOfEmployment == 2)
+                                        {
+                                            <span class="label label-success">@item.TypeOfEmploymentNavigation.Name</span>
+                                        }
+                                        else if (item.TypeOfEmployment == 3)
+                                        {
+                                            <span class="label label-info">@item.TypeOfEmploymentNavigation.Name</span>
+                                        }
+                                        else if (item.TypeOfEmployment == 4)
+                                        {
+                                            <span class="label label-warning">@item.TypeOfEmploymentNavigation.Name</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger">@item.TypeOfEmploymentNavigation.Name</span>
+                                        }
+                                    </div>
+                                    @if ((DateTime.Now - item.Date).Days > 0)
+                                    {
+                                        <time datetime="@item.Date">@((DateTime.Now - item.Date).Days) дней назад</time>
+                                    }
+                                    else
+                                    {
+                                        if ((DateTime.Now - item.Date).Hours > 0)
+                                        {
+                                            <time datetime="@item.Date">@((DateTime.Now - item.Date).Hours) часов назад</time>
+                                        }
+                                        else
+                                        {
+                                            if ((DateTime.Now - item.Date).Minutes > 0)
+                                            {
+                                                <time datetime="@item.Date">@((DateTime.Now - item.Date).Minutes) минут назад</time>
+                                            }
+                                        }
+                                    }
+                                </header>
+
+                                <div class="item-body">
+                                    <p>@((item.Description.Length > 250)?item.Description.Substring(0, 250)+"...":item.Description)</p>
                                 </div>
-                                <time datetime="2016-03-10 20:00">34 min ago</time>
-                            </header>
 
-                            <div class="item-body">
-                                <p>A rapidly growing, well established marketing firm is looking for an experienced web developer for a full-time position. In this role, you will develop websites, apps, emails and other forms of digital electronic media, all while maintaining brand standards across design projects and other marketing communication materials.</p>
-                            </div>
+                                <footer>
+                                    <ul class="details cols-3">
+                                        <li>
+                                            <i class="fa fa-money"></i>
+                                            @if (item.SalaryMin is null && item.SalaryMax != null)
+                                            {
+                                                <span>до @item.SalaryMax руб.</span>
+                                            }
+                                            else if (item.SalaryMax is null && item.SalaryMin != null)
+                                            {
+                                                <span>от @item.SalaryMin руб.</span>
+                                            }
+                                            else if (item.SalaryMin == null && item.SalaryMax == null)
+                                            {
+                                                <span>з/п не указана</span>
+                                            }
+                                            else
+                                            {
+                                                <span>от @item.SalaryMin до @item.SalaryMax руб.</span>
+                                            }
+                                        </li>
 
-                            <footer>
-                                <ul class="details cols-3">
-                                    <li>
-                                        <i class="fa fa-map-marker"></i>
-                                        <span>Menlo Park, CA</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-money"></i>
-                                        <span>$90,000 - $110,000 / year</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-certificate"></i>
-                                        <span>Master or Bachelor</span>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </a>
+                                        <li>
+                                            <i class="fa fa-certificate"></i>
+                                            <span>@item.TypeNavigation.Name</span>
+                                        </li>
+                                    </ul>
+                                </footer>
+                            </a>
+                        }
+                        
                     </div>
-                    <!-- END Job item -->
-                    <!-- Job item -->
-                    <div class="col-xs-12">
-                        <a class="item-block" href="job-detail.html">
-                            <header>
-                                <img src="~/assets/img/logo-linkedin.png" alt="">
-                                <div class="hgroup">
-                                    <h4>Software Engineer (Entry or Senior)</h4>
-                                    <h5>Linkedin <span class="label label-warning">Part-time</span></h5>
-                                </div>
-                                <time datetime="2016-03-10 20:00">8 hours ago</time>
-                            </header>
-
-                            <div class="item-body">
-                                <p>The Special Programs Department II is seeking to hire a Computer Scientist to augment our software development team. Members of the software development team are expected to follow established software engineering principles to methodically deliver mission application software.</p>
-                            </div>
-
-                            <footer>
-                                <ul class="details cols-3">
-                                    <li>
-                                        <i class="fa fa-map-marker"></i>
-                                        <span>Livermore, CA</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-money"></i>
-                                        <span>$60,000 - $75,000 / year</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-certificate"></i>
-                                        <span>Master or Bachelor</span>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </a>
-                    </div>
-                    <!-- END Job item -->
-                    <!-- Job item -->
-                    <div class="col-xs-12">
-                        <a class="item-block" href="job-detail.html">
-                            <header>
-                                <img src="~/assets/img/logo-envato.png" alt="">
-                                <div class="hgroup">
-                                    <h4>Full Stack Web Developer</h4>
-                                    <h5>Envato <span class="label label-info">Freelance</span></h5>
-                                </div>
-                                <time datetime="2016-03-10 20:00">2 days ago</time>
-                            </header>
-
-                            <div class="item-body">
-                                <p>We're seeing a driven, curious, passionate full-stack web developer to help change how people learn creative skills and effortlessly create the images they imagine. You’ll be part of a new rapid prototyping and development team helping to apply lean startup development methodologies and modern web technologies to shape the future of Creative Cloud.</p>
-                            </div>
-
-                            <footer>
-                                <ul class="details cols-3">
-                                    <li>
-                                        <i class="fa fa-map-marker"></i>
-                                        <span>San Francisco, CA</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-money"></i>
-                                        <span>$105,000 / year</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-certificate"></i>
-                                        <span>Master</span>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </a>
-                    </div>
-                    <!-- END Job item -->
-                    <!-- Job item -->
-                    <div class="col-xs-12">
-                        <a class="item-block" href="job-detail.html">
-                            <header>
-                                <img src="~/assets/img/logo-facebook.png" alt="">
-                                <div class="hgroup">
-                                    <h4>Web Applications Developer</h4>
-                                    <h5>Facebook <span class="label label-danger">Internship</span></h5>
-                                </div>
-                                <time datetime="2016-03-10 20:00">Feb 26, 2016</time>
-                            </header>
-
-                            <div class="item-body">
-                                <p>Client needs a back-end Java developer who has worked mainly on Java, J2EE, Spring, Web Services, and other Java related technologies.</p>
-                            </div>
-
-                            <footer>
-                                <ul class="details cols-3">
-                                    <li>
-                                        <i class="fa fa-map-marker"></i>
-                                        <span>Lexington, MA</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-money"></i>
-                                        <span>$130,000 - $150,000 / year</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-certificate"></i>
-                                        <span>Ph.D. or Master</span>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </a>
-                    </div>
-                    <!-- END Job item -->
-                    <!-- Job item -->
-                    <div class="col-xs-12">
-                        <a class="item-block" href="job-detail.html">
-                            <header>
-                                <img src="~/assets/img/logo-microsoft.jpg" alt="">
-                                <div class="hgroup">
-                                    <h4>Sr. SQL Server Developer</h4>
-                                    <h5>Microsoft <span class="label label-success">Remote</span></h5>
-                                </div>
-                                <time datetime="2016-03-10 20:00">Feb 16, 2016</time>
-                            </header>
-
-                            <div class="item-body">
-                                <p>Understand and model complex business requirements into database schemas and work with existing databases in SQL and NOSQL data stores. Develop high performance stored procedures, triggers and other database level code to provide data services to other teams.</p>
-                            </div>
-
-                            <footer>
-                                <ul class="details cols-3">
-                                    <li>
-                                        <i class="fa fa-map-marker"></i>
-                                        <span>Palo Alto, CA</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-money"></i>
-                                        <span>$125,000 - $140,000 / year</span>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-certificate"></i>
-                                        <span>Ph.D. or Master</span>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </a>
-                    </div>
-                    <!-- END Job item -->
 
                 </div>
 
@@ -338,20 +348,84 @@
                 <!-- Page navigation -->
                 <nav class="text-center">
                     <ul class="pagination">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                                <i class="ti-angle-left"></i>
-                            </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li class="active"><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <i class="ti-angle-right"></i>
-                            </a>
-                        </li>
+                        @if (Model.Filter.Page == 1)
+                        {
+                            <li class="active"><a href="#">@(Model.Filter.Page)</a></li>
+                            if (Model.Filter.Page + 1 <= Model.Filter.PageMax)
+                            {
+                                
+                                <li><a href="@Url.Action("Vacancies", new
+                                             {
+                                                 title = @Model.Filter.Title, page = @Model.Filter.Page+1, salary = @Model.Filter.Salary,
+                                                 type = @Model.Filter.Type, typeOfEmployments = @Model.Filter.TypeOfEmployment,
+                                                 timeTables = @Model.Filter.TimeTables, VacanOnPage = @Model.Filter.VacancyOnPage
+                                             })">@(Model.Filter.Page+1)</a></li>
+                            }
+                            if (Model.Filter.PageMax > 1)
+                            {
+                                <li>
+                                    <a href="@Url.Action("Vacancies", new
+                                             {
+                                                 title = @Model.Filter.Title, page = @Model.Filter.Page+1, salary = @Model.Filter.Salary,
+                                                 type = @Model.Filter.Type, typeOfEmployments = @Model.Filter.TypeOfEmployment,
+                                                 timeTables = @Model.Filter.TimeTables, VacanOnPage = @Model.Filter.VacancyOnPage
+                                             })" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            }
+
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@Url.Action("Vacancies", new
+                                         {
+                                             title = @Model.Filter.Title, page = @Model.Filter.Page-1, salary = @Model.Filter.Salary,
+                                             type = @Model.Filter.Type, typeOfEmployments = @Model.Filter.TypeOfEmployment,
+                                             timeTables = @Model.Filter.TimeTables, VacanOnPage = @Model.Filter.VacancyOnPage
+                                         })" aria-label="Previous">
+                                    <i class="ti-angle-left"></i>
+                                </a>
+                            </li>
+                            <li><a href="@Url.Action("Vacancies", new
+                                         {
+                                             title = @Model.Filter.Title, page = @Model.Filter.Page-1, salary = @Model.Filter.Salary,
+                                             type = @Model.Filter.Type, typeOfEmployments = @Model.Filter.TypeOfEmployment,
+                                             timeTables = @Model.Filter.TimeTables, VacanOnPage = @Model.Filter.VacancyOnPage
+                                         })">@(Model.Filter.Page-1)</a></li>
+
+
+
+                            <li class="active"><a href="#">@(Model.Filter.Page)</a></li>
+                            if (Model.Filter.Page + 1 <= Model.Filter.PageMax)
+                            {
+                                <li><a href="@Url.Action("Vacancies", new
+                                             {
+                                                 title = @Model.Filter.Title, page = @Model.Filter.Page+1, salary = @Model.Filter.Salary,
+                                                 type = @Model.Filter.Type, typeOfEmployments = @Model.Filter.TypeOfEmployment,
+                                                 timeTables = @Model.Filter.TimeTables, VacanOnPage = @Model.Filter.VacancyOnPage
+                                             })">@(Model.Filter.Page+1)</a></li>
+                            }
+
+
+
+                            if (Model.Filter.PageMax != Model.Filter.Page)
+                            {
+                                <li>
+                                    <a href="@Url.Action("Vacancies", new
+                                             {
+                                                 title = @Model.Filter.Title, page = @Model.Filter.Page+1, salary = @Model.Filter.Salary,
+                                                 type = @Model.Filter.Type, typeOfEmployments = @Model.Filter.TypeOfEmployment,
+                                                 timeTables = @Model.Filter.TimeTables, VacanOnPage = @Model.Filter.VacancyOnPage
+                                             })" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            }
+
+                        }
+
                     </ul>
                 </nav>
                 <!-- END Page navigation -->

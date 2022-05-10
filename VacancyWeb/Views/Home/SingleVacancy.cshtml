@@ -3,114 +3,170 @@
     ViewData["Title"] = "SingleVacancy";
 }
 
-    <!-- Main container -->
-<main>
-    <section class="no-padding-top bg-alt">
-        <div class="container">
-            <div class="row">
-                <div class="hgroup">
-                    <h1 class="h1">@Model.VacancyRequests.Title</h1>
-                    <h3><a href="#">@Model.TypeVacancies.Name</a></h3>
-                </div>
-                <h6>@Model.VacancyRequests.Date.ToShortDateString()</h6>
-                @if ((DateTime.Now - Model.VacancyRequests.Date).Days > 0)
+<header class="page-header bg-img size-lg" style="background-image: url(/assets/img/bg-banner2.jpg)">
+    <div class="container">
+        <div class="header-detail">
+            <img class="logo" src="assets/img/logo-google.jpg" alt="">
+            <div class="hgroup">
+                <h1>@Model.VacancyRequests.Title</h1>
+                <h3><a href="#">@Model.TypeVacancies.Name</a></h3>
+                <p>Дата публикации вакансии: @Model.VacancyRequests.Date.ToShortDateString()</p>
+            </div>
+            
+            @if ((DateTime.Now - Model.VacancyRequests.Date).Days > 0)
+            {
+                <time datetime="@Model.VacancyRequests.Date">@((DateTime.Now - Model.VacancyRequests.Date).Days) дней назад</time>
+            }
+            else
+            {
+                if ((DateTime.Now - Model.VacancyRequests.Date).Hours > 0)
                 {
-                    <time datetime="@Model.VacancyRequests.Date">@(DateTime.Now - Model.VacancyRequests.Date).Days дней назад</time>
+                    <time datetime="@Model.VacancyRequests.Date">@((DateTime.Now - Model.VacancyRequests.Date).Hours) часов назад</time>
                 }
                 else
                 {
-                    if ((DateTime.Now - Model.VacancyRequests.Date).Hours > 0)
+                    if ((DateTime.Now - Model.VacancyRequests.Date).Minutes > 0)
                     {
-                        <time datetime="@Model.VacancyRequests.Date">@((DateTime.Now - Model.VacancyRequests.Date).Hours) часов назад</time>
+                        <time datetime="@Model.VacancyRequests.Date">@((DateTime.Now - Model.VacancyRequests.Date).Minutes) минут назад</time>
                     }
                 }
-                <hr>
-                <p class="lead">You will help Google build next-generation web applications like Gmail, Google Docs, Google Analytics, and the Google eBookstore and eBook readers. As a Front End Engineer at Google, you will specialize in building responsive and elegant web UIs with AJAX and similar technologies. You may design or work on frameworks for building scalable frontend applications. We are looking for engineers who are passionate about and have experience building leading-edge user experience, including dynamic consumer experiences.</p>
+            }
+            <hr>
+            
 
-                <ul class="details cols-3">
-                    <li>
-                        <i class="fa fa-map-marker"></i>
-                        <span>Menlo Park, CA</span>
-                    </li>
+            <ul class="details cols-3">
 
-                    <li>
-                        <i class="fa fa-briefcase"></i>
-                        <span>Full time</span>
-                    </li>
+                
+                <li>
+                    <i class="fa fa-briefcase"></i>
+                    <span>@Model.TypeOfEmployments.Name, @Model.TimeTables.Name</span>
+                </li>
 
-                    <li>
-                        <i class="fa fa-money"></i>
-                        <span>$90,000 - $110,000 / year</span>
-                    </li>
+                <li>
+                    <i class="fa fa-money"></i>
+                    @if (Model.VacancyRequests.SalaryMin is null && Model.VacancyRequests.SalaryMax != null)
+                    {
+                        <span>до @Model.VacancyRequests.SalaryMax руб.</span>
+                    }
+                    else if (Model.VacancyRequests.SalaryMax is null && Model.VacancyRequests.SalaryMin != null)
+                    {
+                        <span>от @Model.VacancyRequests.SalaryMin руб.</span>
+                    }
+                    else if (Model.VacancyRequests.SalaryMin == null && Model.VacancyRequests.SalaryMax == null)
+                    {
+                        <span>з/п не указана</span>
+                    }
+                    else
+                    {
+                        <span>от @Model.VacancyRequests.SalaryMin до @Model.VacancyRequests.SalaryMax руб.</span>
+                    }
+                </li>
+                <li>
+                    <i class="fa fa-flask"></i>
+                    @if (@Model.VacancyRequests.Experience == 0)
+                    {
+                        <span>Опыт работы не требуется</span>
+                    }
+                    else if (@Model.VacancyRequests.Experience == 1)
+                    {
+                        <span>Опыт работы от 1 года</span>
+                    }
+                    else
+                    {
+                        <span>Опыт работы от @Model.VacancyRequests.Experience лет</span>
+                    }
 
-                    <li>
-                        <i class="fa fa-clock-o"></i>
-                        <span>40h / week</span>
-                    </li>
+                </li>
 
-                    <li>
-                        <i class="fa fa-flask"></i>
-                        <span>2+ years experience</span>
-                    </li>
+                <li>
+                    <i class="fa fa-user"></i>
+                    <span>Контактное лицо: @Model.Staves.LastName @Model.Staves.FirstName</span>
+                </li>
 
-                    <li>
-                        <i class="fa fa-certificate"></i>
-                        <a href="#">Master or Bachelor</a>
-                    </li>
-                </ul>
+                <li>
+                    <i class="fa fa-phone"></i>
+                    <span>Контактный телефон: @Model.Staves.Phone</span>
+                </li>
 
-                <div class="button-group">
-                    <ul class="social-icons">
-                        <li class="title">Share on</li>
-                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                    </ul>
 
-                    <div class="action-buttons">
-                        <a class="btn btn-primary" href="#">Apply with linkedin</a>
-                        <a class="btn btn-success" href="#">Apply now</a>
-                    </div>
+
+                <li>
+                    <i class="fa fa-envelope"></i>
+                    <span>Контактная почта: @Model.Staves.Email</span>
+                </li>
+            </ul>
+
+            <div class="button-group">
+                <div class="action-buttons">
+                    <a class="btn btn-success" href="javascript:void(0)" onclick="
+                            document.getElementById('form').hidden = false;
+                    ">Откликнуться</a>
                 </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                @Html.Raw(TempData["msg"])
+                <form asp-action="SendRequest" id="form" hidden="true" asp-route-id="@Model.VacancyRequests.Id" method="post">
+                    <h4>Форма заявки</h4>
+                    <div class="form-group col-sm-12 col-md-4">
+                        <input type="text" class="form-control input-lg" name="LastName" required="" placeholder="Фамилия">
+                    </div>
+                    <div class="form-group col-sm-12 col-md-4">
+                        <input type="text" class="form-control input-lg" name="FirstName" required="" placeholder="Имя">
+                    </div>
+                    <div class="form-group col-sm-12 col-md-4">
+                        <input type="text" class="form-control input-lg" name="MiddleName" placeholder="Отчество">
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6">
+                        <input type="email" class="form-control input-lg" required="" name="Email" placeholder="Email">
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6">
+                        <input type="number" class="form-control input-lg" required="" name="Phone" placeholder="Телефон">
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12">
+                        <button type="submit" class="btn btn-primary" onclick="alert(Отправлено);">Принять</button>
+                        <a class="btn btn-primary" href="javascript:void(0)" onclick=" document.getElementById('form').hidden = true;">Отмена</a>
+                    </div>
 
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</header>
+<main>
+    
     <!-- Job detail -->
     <section>
         <div class="container">
 
-            <p>Google is and always will be an engineering company. We hire people with a broad set of technical skills who are ready to tackle some of technology's greatest challenges and make an impact on millions, if not billions, of users. At Google, engineers not only revolutionize search, they routinely work on massive scalability and storage solutions, large-scale applications and entirely new platforms for developers around the world. From AdWords to Chrome, Android to YouTube, Social to Local, Google engineers are changing the world one technological achievement after another.</p>
-
-            <br>
-            <h4>Responsibilities</h4>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non.</p>
+            <p class="lead text-justify">@Model.VacancyRequests.Description</p>
+            <hr/>
+            <h4>Обязанности</h4>
             <ul>
-                <li>Build next-generation web applications with a focus on the client side.</li>
-                <li>Redesign UI's, implement new UI's, and pick up Java as necessary.</li>
-                <li>Explore and design dynamic and compelling consumer experiences.</li>
-                <li>Design and build scalable framework for web applications.</li>
+                @foreach (var item in @Model.ListDuties)
+                {
+                    <li>@item.Name</li>
+                }
+
             </ul>
 
             <br>
-            <h4>Minimum qualifications</h4>
+            <h4>Требование</h4>
             <ul>
-                <li>BA/BS degree in a technical field or equivalent practical experience.  </li>
-                <li>2 years of relevant work experience in software development.</li>
-                <li>Programming experience in C, C++ or Java.</li>
-                <li>Experience with AJAX, HTML and CSS.</li>
+                @foreach (var item in @Model.ListRequirements)
+                {
+                    <li>@item.Name</li>
+                }
+
             </ul>
 
             <br>
-            <h4>Preferred qualifications</h4>
+            <h4>Условия</h4>
             <ul>
-                <li>Interest in user interface design.</li>
-                <li>Web application development experience.</li>
-                <li>Experience working on cross-browser platforms.</li>
-                <li>Development experience designing object-oriented JavaScript.</li>
-                <li>Experience with user interface frameworks such as XUL, Flex and XAML.</li>
-                <li>Knowledge of user interface design.</li>
+                @foreach (var item in @Model.ListConditions)
+                {
+                    <li>@item.Name</li>
+                }
+
             </ul>
 
         </div>
