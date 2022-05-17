@@ -35,6 +35,10 @@ namespace VacancyWeb.Controllers
             return View(fw);
         }
 
+        public IActionResult HowItWork()
+        {
+            return View();
+        }
         public IActionResult SendRequest(int id, string LastName, string FirstName, string MiddleName, string Phone,
             string Email)
         {
