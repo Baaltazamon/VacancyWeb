@@ -38,9 +38,7 @@
             </div>
             <!-- END Logo -->
             <!-- User account -->
-            <div class="pull-right user-login">
-                <a class="btn btn-sm btn-primary" href="user-login.html">Login</a> or <a href="user-register.html">register</a>
-            </div>
+            
             <!-- END User account -->
             <!-- Navigation menu -->
             <ul class="nav-menu">
@@ -86,20 +84,20 @@
                 <div class="col-xs-6 col-md-3">
                     <h6>Company</h6>
                     <ul class="footer-links">
-                        <li><a href="">О нас</a></li>
+                        <li><a asp-action="About">О нас</a></li>
                         <li><a href="">Как это работает</a></li>
-                        <li><a href="">Контакты</a></li>
+                        <li><a asp-action="Contact">Контакты</a></li>
                     </ul>
                 </div>
 
                 <div class="col-xs-6 col-md-3">
                     <h6>Основные виды профессий</h6>
                     <ul class="footer-links">
-                        <li><a href="">IT отдел</a></li>
-                        <li><a href="">Пед. состав</a></li>
-                        <li><a href="">Охрана</a></li>
-                        <li><a href="">Отдел снабжения</a></li>
-                        <li><a href="">Отдет маркетинга</a></li>
+                        <li><a asp-action="Vacancies" asp-route-type="1">IT отдел</a></li>
+                        <li><a asp-action="Vacancies" asp-route-type="2">Пед. состав</a></li>
+                        <li><a asp-action="Vacancies" asp-route-type="5">Охрана</a></li>
+                        <li><a asp-action="Vacancies" asp-route-type="4">Отдел снабжения</a></li>
+                        <li><a asp-action="Vacancies" asp-route-type="6">Отдет маркетинга</a></li>
                     </ul>
                 </div>
             </div>

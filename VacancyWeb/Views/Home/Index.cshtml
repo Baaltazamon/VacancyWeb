@@ -16,20 +16,31 @@
                 <h2>Мы предлагаем <mark>присоединиться</mark> к нам прямо сейчас!</h2>
                 <h5 class="font-alt">Найди работу для себя</h5>
                 <br><br><br>
-                <form class="header-job-search">
-                    <div class="input-keyword">
-                        <input type="text" class="form-control" placeholder="Поиск по названию или навыкам">
-                    </div>
+                        <form class="header-job-search" asp-action="Vacancies" method="post">
+                            <div class="input-keyword">
+                                <input type="text" class="form-control" name="title" placeholder="Поиск по названию или навыкам">
+                            </div>
+                            <div class="input-keyword">
+                                <select class="form-control" name="type">
 
-                    <div class="input-keyword">
-                        <input type="text" class="form-control" placeholder="Поиск по профессии">
-                    </div>
+                                    <option selected value="0">Все категории</option>
+                                    @foreach (var VARIABLE in Model.ListTypeVacancies)
+                                    {
+                                        <option value="@VARIABLE.Id">@VARIABLE.Name (@Model.ListVacancyRequests.Count(c => c.Type == VARIABLE.Id))</option>
+                                    }
 
-                    <div class="btn-search">
-                        <button class="btn btn-primary" type="submit">Найти</button>
-                        
-                    </div>
-                </form>
+
+
+
+                                </select>
+                            </div>
+                            
+
+                            <div class="btn-search">
+                                <button class="btn btn-primary" type="submit">Найти</button>
+
+                            </div>
+                        </form>
             </div>
 
         </div>
@@ -153,7 +164,7 @@
                     <a class="btn btn-primary" href="page-typography.html">Learn more</a>
                 </div>
 
-                <div class="col-sm-12 col-md-6 hidden-xs hidden-sm">
+                <div class="col-sm-12 col-md-6 hidden-xs hidden-sm" style="margin-top: 170px;">
                     <br>
                     <img class="center-block" src="~/assets/img/how-it-works.png" alt="how it works">
                 </div>
