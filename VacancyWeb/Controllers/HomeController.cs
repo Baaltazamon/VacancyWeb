@@ -148,6 +148,7 @@ namespace VacancyWeb.Controllers
             }
             
 
+
             
             
             FilterClass fc = new FilterClass
